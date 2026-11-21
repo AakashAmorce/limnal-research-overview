@@ -6,20 +6,20 @@
 
 ## What it does
 
-Six independent models feed one allocation function. The function gives a single measure of current market risk, and subscribers read it in a dashboard.
+Independent models feed one allocation function. The function gives a single measure of current market risk, and subscribers read it in a dashboard.
 
-The six models cover macro regime, expected return, trend, credit, futures positioning, and dealer flows. The data comes from FRED, the U.S. Treasury, CFTC, options markets, and equity providers.
+The main models are macro regime, expected-return dynamic (ERD), Daily Treasury Statement (DTS), and momentum. A CFTC positioning (COT) model plays a smaller part. The data comes from FRED, the U.S. Treasury, CFTC, and equity providers.
 
 ## How it's built
 
 ```
- Data sources (FRED, U.S. Treasury, CFTC, options, equities)
+ Data sources (FRED, U.S. Treasury, CFTC, equities)
           │
           ▼
  20 scheduled jobs  ──(GitHub Actions cron)──▶  FastAPI service (Railway)
           │                                           │
           ▼                                           ▼
-     Postgres  ◄──────── six models ───────▶  allocation function
+     Postgres  ◄────────── models ──────────▶  allocation function
           │
           ▼
  Next.js app on Supabase  ──▶  public site + subscriber dashboards
